@@ -1,6 +1,6 @@
 ﻿using InstagramAnalyzer.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using InstagramAnalyzer.Web.Helpers;
 
 namespace InstagramAnalyzer.Web.Controllers
 {
@@ -13,8 +13,16 @@ namespace InstagramAnalyzer.Web.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            var cookies = new InstagramLoginHelper().GetCookies(model);
+            if (cookies.IsLogin == false)
+            {
+                // giriş başarısız
+                return View();
+            }
+            var allFollowers = new InstagramGetDataHelper().GetAllFollowers(cookies);
+            var unfollowList = new InstagramGetDataHelper().GetUnfollowList(allFollowers);
             return View();
         }
-      
+
     }
 }
