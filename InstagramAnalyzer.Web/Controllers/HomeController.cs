@@ -19,10 +19,15 @@ namespace InstagramAnalyzer.Web.Controllers
                 // giriş başarısız
                 return View();
             }
-            var allFollowers = new InstagramGetDataHelper().GetAllFollowers(cookies);
-            UnfollowListModel unfollowList = new InstagramGetDataHelper().GetUnfollowList(allFollowers);
-            return RedirectToAction("Unfollow", "List", unfollowList);
+            var unfollowList = new InstagramGetDataHelper().UnfollowData(cookies);
+
+            if (unfollowList.IsSuccess)
+            {
+                return RedirectToAction("Unfollow", "List", unfollowList);
+            }
+            //TODO: Volkan - Hata sayfası
+            return View();
         }
-      
+
     }
 }

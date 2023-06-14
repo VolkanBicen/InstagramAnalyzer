@@ -1,7 +1,7 @@
 ﻿namespace InstagramAnalyzer.Web.Models
 {
 
-    public class FollowersDataResult
+    public class FollowersDataResult : Status
     {
         public Data data { get; set; }
         public Extensions extensions { get; set; }

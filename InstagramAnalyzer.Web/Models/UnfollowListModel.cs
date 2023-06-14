@@ -1,14 +1,14 @@
 ﻿namespace InstagramAnalyzer.Web.Models
 {
 
-    public class Unfollowers
+    public class Unfollowers 
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
     }
 
 
-    public class UnfollowListModel
+    public class UnfollowListModel : Status
     {
         public List<Unfollowers> UnfollowersList { get; set; }
 
