@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using OpenQA.Selenium.DevTools.V112.Page;
+using System.Security.Policy;
 using static InstagramAnalyzer.Web.Models.FollowersDataResult;
 
 namespace InstagramAnalyzer.Web.Helpers
@@ -24,6 +26,7 @@ namespace InstagramAnalyzer.Web.Helpers
             {
                 if (cookie.Name != "rur")
                 {
+                    // DB'ye kaydet
                     var cookieHeaderValue = new CookieHeaderValue(cookie.Name, cookie.Value);
                     client.DefaultRequestHeaders.Add("Cookie", cookieHeaderValue.ToString());
                 }
@@ -34,17 +37,23 @@ namespace InstagramAnalyzer.Web.Helpers
             return followersData;
 
         }
-        public List<string> GetUnfollowList(FollowersDataResult followersData)
+
+        public UnfollowListModel GetUnfollowList(FollowersDataResult followersData)
         {
-            List<string> list = new List<string>();
+            var unfollowList = new UnfollowListModel();
+            var unfollowers = new Unfollowers();
+
             foreach (var item in followersData.data.user.edge_follow.edges)
             {
                 if (item.node.follows_viewer == false)
                 {
-                    list.Add(item.node.full_name);
+                    unfollowers.FullName = item.node.full_name;
+                    unfollowers.UserId = item.node.id;
+                    unfollowList.UnfollowersList.Add(unfollowers);
                 }
+
             }
-            return list;
+            return unfollowList;
         }
     }
 }

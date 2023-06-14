@@ -20,9 +20,9 @@ namespace InstagramAnalyzer.Web.Controllers
                 return View();
             }
             var allFollowers = new InstagramGetDataHelper().GetAllFollowers(cookies);
-            var unfollowList = new InstagramGetDataHelper().GetUnfollowList(allFollowers);
-            return View();
+            UnfollowListModel unfollowList = new InstagramGetDataHelper().GetUnfollowList(allFollowers);
+            return RedirectToAction("Unfollow", "List", unfollowList);
         }
-
+      
     }
 }
